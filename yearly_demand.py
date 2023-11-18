@@ -1,0 +1,226 @@
+import pandas as pd
+import os
+
+seasons_data = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\Daily Demand Customers'#'C:\\Users\\bmogaka\\Desktop\\Fiji\\Daily Demand\\Seasons Data'
+seasons_data_sorted = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\Final Seasons Data'#'C:\\Users\\bmogaka\\Desktop\\Fiji\\Daily Demand\\Seasons Data Sorted'
+yearly_demand_time_steps = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\Yearly Load Profile'#C:\\Users\\bmogaka\\Desktop\\Fiji\\Yearly Demand\\Yearly Time Step'
+xendee_inputs = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\Xendee Input'#C:\\Users\\bmogaka\\Desktop\\Fiji\\Yearly Demand\\Xendee Inputs'
+
+average_demand = ['Household Average', 'Business Average', 'Church Average', 'Health Average', 'School Average']
+peak_demand = ['Household Peak', 'Business Peak', 'Church Peak', 'Health Peak', 'School Peak']
+
+# Define the date range for the DataFrame
+start_date = '2023-01-01 00:00:00'
+end_date = '2023-12-31 23:59:59'
+
+"""
+This code loops looping through each file in the seasons data folder and checking if it's an Excel file. If it is, 
+the code opens the Excel file and retrieves the sheet names within it. It then initializes empty pandas Series objects 
+to store calculated values for each sheet. The code loops through each sheet, reads the data into a DataFrame, and 
+checks if specific column headers are present. If they are, it calculates the mean and maximum values along certain 
+columns and stores the results in the corresponding Series objects. After processing all sheets, the Series objects are 
+concatenated horizontally to create a final DataFrame for year profile generation. The code generates an output file 
+name and saves the final DataFrame to an Excel file in a seasons data sorted folder.
+"""
+# Loop through each file in the folder
+for filename in os.listdir(seasons_data):
+    if filename.endswith('.xlsx') or filename.endswith('.xls'):  # Check if file is an Excel file
+        file_path = os.path.join(seasons_data, filename)
+        excel_file = pd.ExcelFile(file_path)  # Open the Excel file
+        sheet_names = excel_file.sheet_names  # Get the sheet names
+
+        s1_weekday = pd.Series(dtype=float)
+        s1_weekday_peak = pd.Series(dtype=float)
+        s1_weekend = pd.Series(dtype=float)
+        s1_weekend_peak = pd.Series(dtype=float)
+        s2_weekday = pd.Series(dtype=float)
+        s2_weekday_peak = pd.Series(dtype=float)
+        s2_weekend = pd.Series(dtype=float)
+        s2_weekend_peak = pd.Series(dtype=float)
+
+        # Loop through each sheet in the Excel file
+        for sheet_name in sheet_names:
+            # Read the sheet into a DataFrame
+            excel_df = pd.read_excel(excel_file, sheet_name=sheet_name)
+
+            # Check if column headers in average demand and peak demand are present in excel_df
+            common_cols_average = list(set(average_demand) & set(excel_df.columns))
+            common_cols_peak = list(set(peak_demand) & set(excel_df.columns))
+
+            # Calculate mean along axis=1 for columns in average demand and store in corresponding DataFrame
+            if sheet_name == 'S1_Weekday':
+                mean_df = excel_df[common_cols_average].sum(axis=1)
+                s1_weekday = pd.concat([s1_weekday, pd.Series(mean_df)], ignore_index=True)
+
+            elif sheet_name == 'S2_Weekday':
+                mean_df = excel_df[common_cols_average].sum(axis=1)
+                s2_weekday = pd.concat([s2_weekday, pd.Series(mean_df)], ignore_index=True)
+
+            elif sheet_name == 'S1_Weekend':
+                mean_df = excel_df[common_cols_average].sum(axis=1)
+                s1_weekend = pd.concat([s1_weekend, pd.Series(mean_df)], ignore_index=True)
+
+            elif sheet_name == 'S2_Weekend':
+                mean_df = excel_df[common_cols_average].sum(axis=1)
+                s2_weekend = pd.concat([s2_weekend, pd.Series(mean_df)], ignore_index=True)
+
+            # Calculate maximum value along axis=1 for columns in peak_demand and store in corresponding DataFrame
+            if sheet_name == 'S1_Weekday':
+                max_df = excel_df[peak_demand].sum(axis=1)
+                s1_weekday_peak = pd.concat([s1_weekday_peak, pd.Series(max_df)], ignore_index=True)
+
+            elif sheet_name == 'S2_Weekday':
+                max_df = excel_df[peak_demand].sum(axis=1)
+                s2_weekday_peak = pd.concat([s2_weekday_peak, pd.Series(max_df)], ignore_index=True)
+
+            elif sheet_name == 'S1_Weekend':
+                max_df = excel_df[peak_demand].sum(axis=1)
+                s1_weekend_peak = pd.concat([s1_weekend_peak, pd.Series(max_df)], ignore_index=True)
+
+            elif sheet_name == 'S2_Weekend':
+                max_df = excel_df[peak_demand].sum(axis=1)
+                s2_weekend_peak = pd.concat([s2_weekend_peak, pd.Series(max_df)], ignore_index=True)
+
+            s1_concat_peak = pd.concat([s1_weekday_peak,s1_weekend_peak], axis=1)
+            s1_peak = pd.Series(s1_concat_peak.max(axis=1))
+
+            s2_concat_peak = pd.concat([s2_weekday_peak, s2_weekend_peak], axis=1)
+            s2_peak = pd.Series(s2_concat_peak.max(axis=1))
+
+        # Creating final hourly excel file for year profile generation
+        daily_lp = pd.DataFrame({
+            'S1_Weekday': s1_weekday,
+            'S2_Weekday': s2_weekday,
+            'S1_Weekend': s1_weekend,
+            'S2_Weekend': s2_weekend,
+            'S1_Peak': s1_peak,
+            'S2_Peak': s2_peak,
+        })
+        output_name = os.path.splitext(filename)[0] + '.xlsx'
+        output_file_path = os.path.join(seasons_data_sorted, output_name)
+        daily_lp.to_excel(output_file_path, index=False)
+
+"""
+The code generates yearly load profiles for different periods based on Excel files containing demand data. The code
+first iterates through all the files in the directory seasons_data_sorted using a for loop. It checks if each file
+has a .xlsx or .xls extension to confirm that it is an Excel file. If the file is an Excel file, it is opened using
+pd.read_excel() function and the demand data from specific columns ('S1_Weekday', 'S2_Weekday', 'S1_Weekend', 
+'S2_Weekend', 'S1_Peak', 'S2_Peak') are extracted and stored in separate lists. Next, the code creates a date range
+using pd.date_range() function with a specified start and end date, and a frequency of hourly ('H') intervals. 
+This date range is then used to create a new DataFrame (df) with a 'Date' column. The code then adds a 'Time Step' 
+column to the DataFrame, which represents the hour of the day for each row in the DataFrame. An empty 'Load' column is 
+also added to the DataFrame to store the calculated load values. Date ranges for three different periods are defined 
+using pd.to_datetime() function, specifying the start and end dates for each period. The code then loops through each 
+row in the DataFrame and fills in the 'Load' column based on the date and time step information, and the demand data
+from the corresponding period. The code checks if the date falls within the defined date ranges for each period and 
+if it's a weekday or a weekend day. Depending on these conditions, the code assigns the appropriate demand value to the
+'Load' column in the DataFrame, either from the weekday demand or weekend demand, and either from the weekday peak 
+demand or peak demand. If the date is the last day of the month and also the last day of the month in the date range, 
+the code uses the peak demand value instead of weekday/weekend demand value. Finally, the generated load profile for 
+each period is saved as a new Excel file with a modified filename in the directory yearly_demand_time_steps, and a 
+completion message is printed to indicate that the yearly load profile generation is completed successfully.
+"""
+
+# Yearly load profile generation
+for file in os.listdir(seasons_data_sorted):
+    if file.endswith('.xlsx') or file.endswith('.xls'):  # Check if file is an Excel file
+        file_path = os.path.join(seasons_data_sorted, file)
+        excel_file = pd.read_excel(file_path)  # Open the Excel file
+
+        s1_weekday_demand = excel_file['S1_Weekday'].tolist()
+        s2_weekday_demand = excel_file['S2_Weekday'].tolist()
+        s1_weekend_demand = excel_file['S1_Weekend'].tolist()
+        s2_weekend_demand = excel_file['S2_Weekend'].tolist()
+        s1_peak_demand = excel_file['S1_Peak'].tolist()
+        s2_peak_demand = excel_file['S2_Peak'].tolist()
+        s3_weekday_demand = s1_weekday_demand
+        s3_weekend_demand = s1_weekend_demand
+        s3_peak_demand = s1_peak_demand
+
+        # Create a list of dates within the date range
+        dates = pd.date_range(start=start_date, end=end_date, freq='H')
+
+        # Create a DataFrame with 'Date' column
+        df = pd.DataFrame({'Date': dates})
+
+        # Create a 'Time Step' column with values ranging from 0 to 23
+        df['Time Step'] = df['Date'].dt.hour
+
+        # Create empty 'Load' column
+        df['Load'] = None
+
+        # Define date ranges for two periods
+        start_date_period1 = pd.to_datetime('2023-01-01')
+        end_date_period1 = pd.to_datetime('2023-04-30 23:59:59')
+        start_date_period2 = pd.to_datetime('2023-05-01')
+        end_date_period2 = pd.to_datetime('2023-10-31 23:59:59')
+        start_date_period3 = pd.to_datetime('2023-11-01')
+        end_date_period3 = pd.to_datetime('2023-12-31 23:59:59')
+
+        # Loop through the DataFrame and fill in the 'Load' column for period 1
+        for idx, row in df.iterrows():
+
+            if start_date_period1 <= row['Date'] <= end_date_period1:
+                if row['Date'].dayofweek < 5: #Weekdays (Monday to Friday)
+                    if row['Date'].is_month_end and row['Date'].day == row['Date'].days_in_month:
+                        df.at[idx, 'Load'] = s1_peak_demand[row['Time Step']]
+                    else:
+                        df.at[idx, 'Load'] = s1_weekday_demand[row['Time Step']]
+                elif row['Date'].dayofweek >= 5 and row['Date'].dayofweek <= 6:
+                    if row['Date'].is_month_end and row['Date'].day == row['Date'].days_in_month:
+                        df.at[idx, 'Load'] = s1_peak_demand[row['Time Step']]
+                    else:
+                        df.at[idx, 'Load'] = s1_weekend_demand[row['Time Step']]
+
+            elif start_date_period2 <= row['Date'] <= end_date_period2:
+                if row['Date'].dayofweek < 5:
+                    if row['Date'].is_month_end and row['Date'].day == row['Date'].days_in_month:
+                        df.at[idx, 'Load'] = s2_peak_demand[row['Time Step']]
+                    else:
+                        df.at[idx, 'Load'] = s2_weekday_demand[row['Time Step']]
+                elif row['Date'].dayofweek >= 5 and row['Date'].dayofweek <= 6:
+                    if row['Date'].is_month_end and row['Date'].day == row['Date'].days_in_month:
+                        df.at[idx, 'Load'] = s2_peak_demand[row['Time Step']]
+                    else:
+                        df.at[idx, 'Load'] = s2_weekend_demand[row['Time Step']]
+
+            elif start_date_period3 <= row['Date'] <= end_date_period3:
+                if row['Date'].dayofweek < 5:
+                    if row['Date'].is_month_end and row['Date'] == row['Date'].days_in_month:
+                        df.at[idx, 'Load'] = s3_peak_demand[row['Time Step']]
+                    else:
+                        df.at[idx, 'Load'] = s3_weekday_demand[row['Time Step']]
+                elif row['Date'].dayofweek >= 5 and row['Date'].dayofweek <= 6:
+                    if row['Date'].is_month_end and row['Date'] == row['Date'].days_in_month:
+                        df.at[idx, 'Load'] = s3_peak_demand[row['Date']]
+                    else:
+                        df.at[idx, 'Load'] = s3_weekend_demand[row['Time Step']]
+
+        # Save the generated load profile as an Excel file with the original filename
+        output_file_name = file.replace('Session _combined_24hr_profile_result.xlsx', 'output.xlsx')
+        output_file_path = os.path.join(yearly_demand_time_steps, output_file_name)
+        df.to_excel(output_file_path, index=False)
+        print(f"{output_file_name} 'Yearly load profile generation completed successfully!")
+
+"""
+In this code, the yearly load profile files are converted to excel_file DataFrame using pd.read_excel. Then, the 
+specified columns ('Date' and 'Time Step') are dropped from the DataFrame using the drop method. The output file name
+is created by replacing '- output.xlsx' with '.csv' from the input file name, and the output file path is constructed
+using os.path.join method. Finally, the to_csv method is used to save the DataFrame to a CSV file with the constructed
+output file path, with index parameter set to False to exclude the index column, and header parameter set to False 
+to exclude column headers in the output CSV file.
+"""
+
+# Xendee inputs
+print(f'\n____________Creating Xendee Inputs___________')
+for file in os.listdir(yearly_demand_time_steps):
+    if file.endswith('.xlsx') or file.endswith('.xls'):  # Check if file is an Excel file
+        file_path = os.path.join(yearly_demand_time_steps, file)
+        excel_file = pd.read_excel(file_path)
+
+        xendee_df = excel_file.drop(['Date', 'Time Step'], axis=1)
+
+        output_file_name = file.replace('- output.xlsx', '.csv')
+        output_file_path = os.path.join(xendee_inputs, output_file_name)
+        xendee_df.to_csv(output_file_path, index=False, header=False)
+        print(f"{output_file_name} 'Xendee input completed successfully!")
