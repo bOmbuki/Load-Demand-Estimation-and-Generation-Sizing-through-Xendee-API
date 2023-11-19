@@ -5,7 +5,7 @@ import os
 data_path = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Field Data'
 
 # Get the path where the CSV files will be saved
-save_path = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Sorted Field Data'
+save_path = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Sorted Data\\Sorted Field Data'
 
 file_list = os.listdir(data_path)
 

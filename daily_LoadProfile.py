@@ -1,14 +1,12 @@
 import pandas as pd
-import openpyxl
 import os
 
 # Define input and output file paths
-input_folder = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\Sorted Comet Data'#'C:\\Users\\bmogaka\\Desktop\\Fiji\\Sorted Comet Data'
-peak_average = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\24hr Load Profile'#'C:\\Users\\bmogaka\\Desktop\\Fiji\\Sorted Comet Data 24hr'
-combined_sessions = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\Combined Sessions'#'C:\\Users\\bmogaka\\Desktop\\Fiji\\Combined Sessions'
-daily_demand = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\Daily Demand'#'C:\\Users\\bmogaka\\Desktop\\Fiji\\Daily Demand\\Seasons Data Original'
-daily_demand_customers = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\Daily Demand Customers'#'C:\\Users\\bmogaka\\Desktop\\Fiji\\Daily Demand\\Seasons Data'
-
+input_folder = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Sorted Data\\Sorted Field Data'
+peak_average = 'C:\\Users\\bmogaka\Desktop\\Load Profile Estimation\\Sorted Data\\Hourly Field Data'
+combined_sessions = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Sorted Data\\Combined Sessions'
+daily_demand = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Estimated Consumer Demand'
+daily_demand_customers = "C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Village Demand"
 
 """
 The code reads sorted files from a folder containing comet data. The code uses a loop to iterate through all the files
