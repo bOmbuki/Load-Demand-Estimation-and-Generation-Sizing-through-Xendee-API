@@ -9,7 +9,7 @@ save_path = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Sorted Field 
 
 file_list = os.listdir(data_path)
 
-#Looping through each file in the defined file path and sorting it
+# Looping through each file in the defined file path and sorting it
 print(f'_____________Sorting Field Data Files____________')
 for file_name in file_list:
     print(f'Sorting File: {file_name}.')
