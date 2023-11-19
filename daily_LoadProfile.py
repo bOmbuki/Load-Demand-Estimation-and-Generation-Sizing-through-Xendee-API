@@ -8,28 +8,6 @@ combined_sessions = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Sorte
 daily_demand = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Estimated Consumer Demand'
 daily_demand_customers = "C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Village Demand"
 
-"""
-The code reads sorted files from a folder containing comet data. The code uses a loop to iterate through all the files
-in the input folder using os.listdir() function. For each file, the code checks if it is an Excel file by using the
-.endswith(".xlsx") method. If it is an Excel file, the code proceeds to read the Excel file as a data frame using 
-pd.ExcelFile() function from the pandas library. Once the Excel file is loaded as a data frame, the code creates an 
-empty list to store sheet names and data frames. It then loops through each sheet in the Excel file using sheet_names 
-attribute of pd.ExcelFile object. For each sheet, the code performs the following steps:
-- Calculates the mean of all values for a given consumer type across the columns using df.filter(regex=...) to filter
-  columns based on their names and .mean(axis=1) to calculate the row-wise mean.
-- Groups the resulting mean values into sets of 60 using groupby(df.index // 60), where df.index represents the index
- (time values) of the data frame and // 60 performs integer division by 60, effectively grouping the data into hourly 
- intervals.
-- Calculates the mean of these sets of 60 mean values to determine the average hourly demand for each consumer type.
-- Creates a new data frame with the calculated average hourly demand values, where each consumer type is represented 
-  by a different column.
-- Appends the new data frame to the list of data frames.
-Once all sheets in the Excel file have been processed, the code writes the output to a new Excel file using 
-pd.ExcelWriter() and to_excel() functions. The output file is saved in the specified output folder with the same name 
-as the original Excel file, but with "_24hr.xlsx" added to the file name. This new Excel file contains the calculated 
-average hourly demand data for each consumer type across all sheets in the original Excel file.
-"""
-
 print(f'________Creating hourly demand for consumer types_______')
 # Loop through all files in input folder
 for file_name in os.listdir(input_folder):
@@ -87,18 +65,6 @@ for file_name in os.listdir(input_folder):
 
         print(f"Output saved to {output_file_path}.")
 
-""" The purpose of this code is to identify pairs of files in the 'peak_average' directory that have matching prefixes,
-where the prefix is the first 27 characters of the file name. The code creates a dictionary called 'file_dict' to store
-pairs of file names that have matching prefixes. It starts by iterating through the files in the directory specified by
-the 'peak_average' variable using the 'os.listdir()' function. For each file in the directory, it checks if the file
-ends with the '.xlsx' extension using the 'endswith()' method. If it does, it extracts the first 27 characters (prefix) 
-from the file name using slicing and stores it in a variable called 'prefix'. Next, the code iterates through the files
-in the directory again using another loop. For each file, it checks if the file ends with the '.xlsx' extension and if 
-the first 27 characters of the file name match the 'prefix' obtained earlier. It also ensures that the file name is not
-the same as the original file name to avoid matching a file with itself. If these conditions are met, it means that
-there is another file in the directory with a matching prefix. In this case, it adds the original file name as the key
-and the matching file name as the value to the 'file_dict' dictionary.
-"""
 print(f'\n_________Combining sessions________')
 # Loop through the files in the input directory
 file_dict = {}
@@ -132,17 +98,6 @@ for file1, file2 in file_dict.items():
     combined_workbook.close()
     print(f"Output saved to {combined_sessions}.")
 
-"""
-This code segment is reading sorted files from a folder containing combined session data for comet demand. For each 
-sheet in the read file, it calculates the average and peak demand values for different consumer types (household, 
-business, church, health, school) across columns. It then creates a new data frame with the calculated average and 
-peak values. The resulting data frames for each sheet are stored in a list. Next, the code creates a new Excel workbook
-to store the output data. It loops through the list of data frames and writes each data frame to a separate sheet in 
-the output workbook with the sheet name same as the original sheet name in the combined session file. Finally, it saves
-the output workbook to a new Excel file in a different folder with a file name based on the original sorted data file 
-name appended with "_24hr_profile.xlsx". The output file is saved in the same directory as the sorted data 24-hour 
-folder. The code also prints a message indicating the location of the saved output file.
-"""
 print(f"\n_______________Final 24 hr load profiles___________________")
 #  Define the target headers
 hh_average = 'hh_average'
@@ -237,15 +192,6 @@ for file in os.listdir(combined_sessions):
         output_workbook.close()
         print(f"Output saved to {daily_demand}.")
 
-
-"""
-The provided code reads consumer data from an Excel file ('Fiji Consumers.xlsx') into a pandas DataFrame (consumer_df). 
-It then loops through a directory of daily demand files, and for each file, it reads the Excel file into a dictionary 
-of DataFrames (df_file). It checks if the file name without the extension exists in the index of consumer_df, and if so,
-it manipulates specific columns in the sheets of df_file based on the values in consumer_df using column name mappings. 
-The manipulated data is then written to a new Excel file with a modified file name in a different directory 
-('daily_demand_customers') using an Excel writer object (output_workbook).
-"""
 print("_________________Factoring number of consumers by type_____________________")
 consumer_df = pd.read_excel('Fiji Consumers.xlsx', index_col=0)
 print(consumer_df)
