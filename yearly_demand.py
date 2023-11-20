@@ -15,15 +15,6 @@ peak_demand = ['Household Peak', 'Business Peak', 'Religion Peak', 'Health Peak'
 start_date = '2023-01-01 00:00:00'
 end_date = '2023-12-31 23:59:59'
 
-"""
-This code loops looping through each file in the seasons data folder and checking if it's an Excel file. If it is, 
-the code opens the Excel file and retrieves the sheet names within it. It then initializes empty pandas Series objects 
-to store calculated values for each sheet. The code loops through each sheet, reads the data into a DataFrame, and 
-checks if specific column headers are present. If they are, it calculates the mean and maximum values along certain 
-columns and stores the results in the corresponding Series objects. After processing all sheets, the Series objects are 
-concatenated horizontally to create a final DataFrame for year profile generation. The code generates an output file 
-name and saves the final DataFrame to an Excel file in a seasons data sorted folder.
-"""
 # Loop through each file in the folder
 for filename in os.listdir(seasons_data):
     if filename.endswith('.xlsx') or filename.endswith('.xls'):  # Check if file is an Excel file
@@ -49,7 +40,7 @@ for filename in os.listdir(seasons_data):
             common_cols_average = list(set(average_demand) & set(excel_df.columns))
             common_cols_peak = list(set(peak_demand) & set(excel_df.columns))
 
-            # Calculate mean along axis=1 for columns in average demand and store in corresponding DataFrame
+            # Calculate the sum along axis=1 for columns in average demand and store in corresponding DataFrame
             if sheet_name == 'S1_Weekday':
                 mean_df = excel_df[common_cols_average].sum(axis=1)
                 s1_weekday = pd.concat([s1_weekday, pd.Series(mean_df)], ignore_index=True)
@@ -101,27 +92,6 @@ for filename in os.listdir(seasons_data):
         output_name = os.path.splitext(filename)[0] + '.xlsx'
         output_file_path = os.path.join(seasons_data_sorted, output_name)
         daily_lp.to_excel(output_file_path, index=False)
-
-"""
-The code generates yearly load profiles for different periods based on Excel files containing demand data. The code
-first iterates through all the files in the directory seasons_data_sorted using a for loop. It checks if each file
-has a .xlsx or .xls extension to confirm that it is an Excel file. If the file is an Excel file, it is opened using
-pd.read_excel() function and the demand data from specific columns ('S1_Weekday', 'S2_Weekday', 'S1_Weekend', 
-'S2_Weekend', 'S1_Peak', 'S2_Peak') are extracted and stored in separate lists. Next, the code creates a date range
-using pd.date_range() function with a specified start and end date, and a frequency of hourly ('H') intervals. 
-This date range is then used to create a new DataFrame (df) with a 'Date' column. The code then adds a 'Time Step' 
-column to the DataFrame, which represents the hour of the day for each row in the DataFrame. An empty 'Load' column is 
-also added to the DataFrame to store the calculated load values. Date ranges for three different periods are defined 
-using pd.to_datetime() function, specifying the start and end dates for each period. The code then loops through each 
-row in the DataFrame and fills in the 'Load' column based on the date and time step information, and the demand data
-from the corresponding period. The code checks if the date falls within the defined date ranges for each period and 
-if it's a weekday or a weekend day. Depending on these conditions, the code assigns the appropriate demand value to the
-'Load' column in the DataFrame, either from the weekday demand or weekend demand, and either from the weekday peak 
-demand or peak demand. If the date is the last day of the month and also the last day of the month in the date range, 
-the code uses the peak demand value instead of weekday/weekend demand value. Finally, the generated load profile for 
-each period is saved as a new Excel file with a modified filename in the directory yearly_demand_time_steps, and a 
-completion message is printed to indicate that the yearly load profile generation is completed successfully.
-"""
 
 # Define date ranges for two periods
 start_date_period1 = pd.to_datetime('2023-01-01')
@@ -204,14 +174,6 @@ for file in os.listdir(seasons_data_sorted):
         df.to_excel(output_file_path, index=False)
         print(f"{output_file_name} 'Yearly load profile generation completed successfully!")
 
-"""
-In this code, the yearly load profile files are converted to excel_file DataFrame using pd.read_excel. Then, the 
-specified columns ('Date' and 'Time Step') are dropped from the DataFrame using the drop method. The output file name
-is created by replacing '- output.xlsx' with '.csv' from the input file name, and the output file path is constructed
-using os.path.join method. Finally, the to_csv method is used to save the DataFrame to a CSV file with the constructed
-output file path, with index parameter set to False to exclude the index column, and header parameter set to False 
-to exclude column headers in the output CSV file.
-"""
 
 # Xendee inputs
 print(f'\n____________Creating Xendee Inputs___________')
