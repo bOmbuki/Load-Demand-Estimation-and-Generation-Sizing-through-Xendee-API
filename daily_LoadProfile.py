@@ -1,13 +1,13 @@
 import pandas as pd
 import os
-import folder_funcs
+from folder_funcs import folder_paths
 
 # Define input and output file paths
-input_folder = folder_funcs.get_sorted_field_data_path()
-peak_average = folder_funcs.get_hourly_field_data_path()
-combined_sessions = folder_funcs.get_combined_sessions_path()
-daily_demand = folder_funcs.get_estimated_consumer_demand_path()
-daily_demand_customers = folder_funcs.get_village_demand_path()
+input_folder = folder_paths[5][2]
+peak_average = folder_paths[5][1]
+combined_sessions = folder_paths[5][0]
+daily_demand = folder_paths[4][0]
+daily_demand_customers = folder_paths[4][2]
 
 print(f'________Creating hourly demand for consumer types_______')
 # Loop through all files in input folder

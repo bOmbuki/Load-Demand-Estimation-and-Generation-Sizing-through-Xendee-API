@@ -1,11 +1,11 @@
 import pandas as pd
 import os
-import folder_funcs
+from folder_funcs import folder_paths
 
-seasons_data = folder_funcs.get_village_demand_path()
-seasons_data_sorted = folder_funcs.get_final_seasons_data_path()
-yearly_demand_time_steps = folder_funcs.get_yearly_load_profile_path()
-xendee_inputs = folder_funcs.get_xendee_inputs_path()
+seasons_data = folder_paths[4][2]
+seasons_data_sorted = folder_paths[4][1]
+yearly_demand_time_steps = folder_paths[4][4]
+xendee_inputs = folder_paths[4][3]
 
 
 average_demand = ['Household Average', 'Business Average', 'Religion Average', 'Health Average', 'School Average']

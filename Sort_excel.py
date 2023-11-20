@@ -1,12 +1,12 @@
 import pandas as pd
 import os
-import folder_funcs
+from folder_funcs import folder_paths
 
 # Data Path where field collected data is stored
-data_path = folder_funcs.get_field_data_path()
+data_path = folder_paths[1]
 
 # Get the path where the CSV files will be saved
-save_path = folder_funcs.get_sorted_field_data_path()
+save_path = folder_paths[5][2]
 
 file_list = os.listdir(data_path)
 
