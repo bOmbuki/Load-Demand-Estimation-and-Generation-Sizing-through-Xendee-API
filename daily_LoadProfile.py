@@ -1,12 +1,13 @@
 import pandas as pd
 import os
+import folder_funcs
 
 # Define input and output file paths
-input_folder = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Sorted Data\\Sorted Field Data'
-peak_average = 'C:\\Users\\bmogaka\Desktop\\Load Profile Estimation\\Sorted Data\\Hourly Field Data'
-combined_sessions = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Sorted Data\\Combined Sessions'
-daily_demand = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Estimated Consumer Demand'
-daily_demand_customers = "C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Village Demand"
+input_folder = folder_funcs.get_sorted_field_data_path()
+peak_average = folder_funcs.get_hourly_field_data_path()
+combined_sessions = folder_funcs.get_combined_sessions_path()
+daily_demand = folder_funcs.get_estimated_consumer_demand_path()
+daily_demand_customers = folder_funcs.get_village_demand_path()
 
 print(f'________Creating hourly demand for consumer types_______')
 # Loop through all files in input folder

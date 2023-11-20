@@ -1,11 +1,12 @@
 import pandas as pd
 import os
+import folder_funcs
 
 # Data Path where field collected data is stored
-data_path = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Field Data'
+data_path = folder_funcs.get_field_data_path()
 
 # Get the path where the CSV files will be saved
-save_path = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Sorted Data\\Sorted Field Data'
+save_path = folder_funcs.get_sorted_field_data_path()
 
 file_list = os.listdir(data_path)
 

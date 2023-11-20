@@ -1,10 +1,12 @@
 import pandas as pd
 import os
+import folder_funcs
 
-seasons_data = "C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Village Demand"
-seasons_data_sorted = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Final Seasons Data'
-yearly_demand_time_steps = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Yearly Load Profile'
-xendee_inputs = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Xendee Inputs'
+seasons_data = folder_funcs.get_village_demand_path()
+seasons_data_sorted = folder_funcs.get_final_seasons_data_path()
+yearly_demand_time_steps = folder_funcs.get_yearly_load_profile_path()
+xendee_inputs = folder_funcs.get_xendee_inputs_path()
+
 
 average_demand = ['Household Average', 'Business Average', 'Religion Average', 'Health Average', 'School Average']
 peak_demand = ['Household Peak', 'Business Peak', 'Religion Peak', 'Health Peak', 'School Peak']
