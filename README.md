@@ -14,4 +14,10 @@ Execute file in order sort excel ---> daily demand estimation ---> yearly LP gen
    - The collated data is then processed by finding the averages and max values for each specified consumer for each row, thereby finding the typical and peak 
      per consumer type.
    - It then reads a file that defines the number of consumers per village/site surveyed per type and finds the typical and peaks total daily demand per
-     consumer type using product operation, and the output is stored in a user defined folder.  
+     consumer type using product operation, and the output is stored in a user defined folder.
+##### yearly_demand
+- This code processes typical and peak daily demand per consumer.
+- It goes through the outpufiles from daily_LoadProfile. For each sheet (sheet have the typical and peak demands for different seasons in the surveyed sites)
+    - The typical demand per for different consumer types are summed together and the data stored in lists i.e., season 1 and season 2 - typical and peak demands for weekday and weekends.
+    - These sums are stored in lists.
+    - Loops are used to populate new excel files with the data contained in the list. For everyweekday in a select year, the average demand in a specified season are used to demand values for week days and peak values are used to populate the hourly demand for the weekends.
