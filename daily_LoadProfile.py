@@ -34,8 +34,8 @@ for file_name in os.listdir(input_folder):
             hh_max = df.filter(regex='^HH').max(axis=1).groupby(df.index // 60).max()
             b_mean = df.filter(regex='^B').mean(axis=1).groupby(df.index // 60).mean()
             b_max = df.filter(regex='^B').max(axis=1).groupby(df.index // 60).max()
-            ch_mean = df.filter(regex='^CH').mean(axis=1).groupby(df.index // 60).mean()
-            ch_max = df.filter(regex='^CH').max(axis=1).groupby(df.index // 60).max()
+            re_mean = df.filter(regex='^RE').mean(axis=1).groupby(df.index // 60).mean()
+            re_max = df.filter(regex='^RE').max(axis=1).groupby(df.index // 60).max()
             he_mean = df.filter(regex='^HE').mean(axis=1).groupby(df.index//60).mean()
             he_max = df.filter(regex='^HE').max(axis=1).groupby(df.index // 60).max()
             sc_mean = df.filter(regex='^SC').mean(axis=1).groupby(df.index // 60).mean()
@@ -47,8 +47,8 @@ for file_name in os.listdir(input_folder):
                 'hh_peak': hh_max,
                 'b_average': b_mean,
                 'b_peak': b_max,
-                'ch_average': ch_mean,
-                'ch_peak': ch_max,
+                're_average': re_mean,
+                're_peak': re_max,
                 'he_average': he_mean,
                 'he_peak': he_max,
                 'sc_average': sc_mean,
@@ -104,8 +104,8 @@ hh_average = 'hh_average'
 hh_peak = 'hh_peak'
 b_average = 'b_average'
 b_peak = 'b_peak'
-ch_average = 'ch_average'
-ch_peak = 'ch_peak'
+re_average = 're_average'
+re_peak = 're_peak'
 he_average = 'he_average'
 he_peak = 'he_peak'
 sc_average = "sc_average"
@@ -139,13 +139,13 @@ for file in os.listdir(combined_sessions):
                 business_p = df.loc[:, df.columns.str.contains(b_peak)]
                 business_peak = business_p.max(axis=1)
 
-            if ch_average in df.columns:
-                church_av = df.loc[:, df.columns.str.contains(ch_average)]
-                church_average = church_av.mean(axis=1)
+            if re_average in df.columns:
+                religion_av = df.loc[:, df.columns.str.contains(re_average)]
+                religion_average = religion_av.mean(axis=1)
 
-            if ch_peak in df.columns:
-                church_p = df.loc[:, df.columns.str.contains(ch_peak)]
-                church_peak = church_p.max(axis=1)
+            if re_peak in df.columns:
+                religion_p = df.loc[:, df.columns.str.contains(re_peak)]
+                religion_peak = religion_p.max(axis=1)
 
             if he_average in df.columns:
                 health_av = df.loc[:, df.columns.str.contains(he_average)]
@@ -169,8 +169,8 @@ for file in os.listdir(combined_sessions):
                 "Household Peak": household_peak,
                 "Business Average": business_average,
                 "Business Peak": business_peak,
-                "Church Average": church_average,
-                "Church Peak": church_peak,
+                "Religion Average": religion_average,
+                "Religion Peak": religion_peak,
                 "Health Average": health_average,
                 "Health Peak": health_peak,
                 "School Average":  school_average,
@@ -200,12 +200,12 @@ print(consumer_df)
 column_mapping = {
     'Household Average': 'Households',
     'Business Average': 'Businesses',
-    'Church Average': 'Churches',
+    'Religion Average': 'Religion',
     'Health Average': 'Health Care',
     'School Average': 'Schools',
     'Household Peak': 'Households',
     'Business Peak': 'Businesses',
-    'Church Peak': 'Churches',
+    'Religion Peak': 'Religion',
     'Health Peak': 'Health Care',
     'School Peak': 'Schools',
 }
