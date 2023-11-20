@@ -1,13 +1,13 @@
 import pandas as pd
 import os
 
-seasons_data = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\Daily Demand Customers'#'C:\\Users\\bmogaka\\Desktop\\Fiji\\Daily Demand\\Seasons Data'
-seasons_data_sorted = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\Final Seasons Data'#'C:\\Users\\bmogaka\\Desktop\\Fiji\\Daily Demand\\Seasons Data Sorted'
-yearly_demand_time_steps = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\Yearly Load Profile'#C:\\Users\\bmogaka\\Desktop\\Fiji\\Yearly Demand\\Yearly Time Step'
-xendee_inputs = 'C:\\Users\\bmogaka\\Desktop\\LEAPS\\GEA\\Load Profile Test Run\\Xendee Input'#C:\\Users\\bmogaka\\Desktop\\Fiji\\Yearly Demand\\Xendee Inputs'
+seasons_data = "C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Village Demand"
+seasons_data_sorted = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Final Seasons Data'
+yearly_demand_time_steps = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Yearly Load Profile'
+xendee_inputs = 'C:\\Users\\bmogaka\\Desktop\\Load Profile Estimation\\Demand\\Xendee Inputs'
 
-average_demand = ['Household Average', 'Business Average', 'Church Average', 'Health Average', 'School Average']
-peak_demand = ['Household Peak', 'Business Peak', 'Church Peak', 'Health Peak', 'School Peak']
+average_demand = ['Household Average', 'Business Average', 'Religion Average', 'Health Average', 'School Average']
+peak_demand = ['Household Peak', 'Business Peak', 'Religion Peak', 'Health Peak', 'School Peak']
 
 # Define the date range for the DataFrame
 start_date = '2023-01-01 00:00:00'
@@ -121,6 +121,14 @@ each period is saved as a new Excel file with a modified filename in the directo
 completion message is printed to indicate that the yearly load profile generation is completed successfully.
 """
 
+# Define date ranges for two periods
+start_date_period1 = pd.to_datetime('2023-01-01')
+end_date_period1 = pd.to_datetime('2023-04-30 23:59:59')
+start_date_period2 = pd.to_datetime('2023-05-01')
+end_date_period2 = pd.to_datetime('2023-10-31 23:59:59')
+start_date_period3 = pd.to_datetime('2023-11-01')
+end_date_period3 = pd.to_datetime('2023-12-31 23:59:59')
+
 # Yearly load profile generation
 for file in os.listdir(seasons_data_sorted):
     if file.endswith('.xlsx') or file.endswith('.xls'):  # Check if file is an Excel file
@@ -148,14 +156,6 @@ for file in os.listdir(seasons_data_sorted):
 
         # Create empty 'Load' column
         df['Load'] = None
-
-        # Define date ranges for two periods
-        start_date_period1 = pd.to_datetime('2023-01-01')
-        end_date_period1 = pd.to_datetime('2023-04-30 23:59:59')
-        start_date_period2 = pd.to_datetime('2023-05-01')
-        end_date_period2 = pd.to_datetime('2023-10-31 23:59:59')
-        start_date_period3 = pd.to_datetime('2023-11-01')
-        end_date_period3 = pd.to_datetime('2023-12-31 23:59:59')
 
         # Loop through the DataFrame and fill in the 'Load' column for period 1
         for idx, row in df.iterrows():
