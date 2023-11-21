@@ -5,7 +5,8 @@ import re
 import plot_creator
 from folder_creator import daily_demand_customers, seasons_data_sorted, yearly_demand_time_steps, xendee_inputs, load_curves
 
-seasons_data = daily_demand_customers #folder_paths[4][2]
+seasons_data = daily_demand_customers
+#folder_paths[4][2]
 #seasons_data_sorted = folder_paths[4][1]
 #yearly_demand_time_steps = folder_paths[4][4]
 #xendee_inputs = folder_paths[4][3]
@@ -218,7 +219,7 @@ for file in os.listdir(yearly_demand_time_steps):
         xendee_df.to_csv(output_file_path, index=False, header=False)
         print(f"{output_file_name} Xendee input file completed successfully!")
 
-# Conveting Xendee Inputs into format acceptable for the API based optimization
+# Converting Xendee Inputs into format acceptable for the API based optimization
 current_directory = os.getcwd()
 
 # Get a list of all csv files in the Xendee inputs folder
