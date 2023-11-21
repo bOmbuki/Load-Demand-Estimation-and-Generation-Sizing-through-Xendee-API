@@ -2,14 +2,14 @@ import numpy as np
 import pandas as pd
 import os
 import re
-from functions import folder_paths
-from functions import plot_load_curves
+import plot_creator
+from folder_creator import daily_demand_customers, seasons_data_sorted, yearly_demand_time_steps, xendee_inputs, load_curves
 
-seasons_data = folder_paths[4][2]
-seasons_data_sorted = folder_paths[4][1]
-yearly_demand_time_steps = folder_paths[4][4]
-xendee_inputs = folder_paths[4][3]
-load_curves = folder_paths[4][5]
+seasons_data = daily_demand_customers #folder_paths[4][2]
+#seasons_data_sorted = folder_paths[4][1]
+#yearly_demand_time_steps = folder_paths[4][4]
+#xendee_inputs = folder_paths[4][3]
+#load_curves = folder_paths[4][5]
 
 average_demand = ['Household Average', 'Business Average', 'Religion Average', 'Health Average', 'School Average']
 peak_demand = ['Household Peak', 'Business Peak', 'Religion Peak', 'Health Peak', 'School Peak']
@@ -120,7 +120,7 @@ for file_name in os.listdir(seasons_data_sorted):
             df = pd.read_excel(os.path.join(seasons_data_sorted, file_name))
 
             # Call the plotting function for the current DataFrame
-            plot_load_curves(df, load_curves, f'{village_name} Load Curves')
+            plot_creator.plot_load_curves(df, load_curves, f'{village_name} Load Curves')
 
 # Define date ranges for two periods
 start_date_period1 = pd.to_datetime('2023-01-01')
@@ -217,3 +217,36 @@ for file in os.listdir(yearly_demand_time_steps):
         output_file_path = os.path.join(xendee_inputs, output_file_name)
         xendee_df.to_csv(output_file_path, index=False, header=False)
         print(f"{output_file_name} Xendee input file completed successfully!")
+
+# Conveting Xendee Inputs into format acceptable for the API based optimization
+current_directory = os.getcwd()
+
+# Get a list of all csv files in the Xendee inputs folder
+files = os.listdir(xendee_inputs)
+csv_files = [file for file in files if file.endswith('.csv')]
+dfs_list = []
+file_names = []
+
+# Loop through each csv file in csv_files
+for csv_file in csv_files:
+    # Read the csv file into a dataframe with file name as header
+    df = pd.read_csv(os.path.join(xendee_inputs, csv_file))
+
+    # Extract the file name without the extension
+    file_name = os.path.splitext(csv_file)[0]
+
+    # Append the dataframe to a list
+    dfs_list.append(df)
+
+    # Add the file name to the file_names list
+    file_names.append(file_name)
+
+# Concatenate all the data frames in dfs_list
+final_df = pd.concat(dfs_list, axis=1, keys=file_names)
+
+# Save the final dataframe to a csv file in the current working directory
+csv_file_path = os.path.join(current_directory, 'Load Profile.csv')
+final_df.to_csv(csv_file_path, index=False)
+
+
+

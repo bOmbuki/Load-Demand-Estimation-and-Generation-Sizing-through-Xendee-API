@@ -1,13 +1,13 @@
 import pandas as pd
 import os
-from functions import folder_paths
+from folder_creator import save_path, peak_average, combined_sessions, daily_demand, daily_demand_customers
 
 # Define input and output file paths
-input_folder = folder_paths[5][2]
-peak_average = folder_paths[5][1]
-combined_sessions = folder_paths[5][0]
-daily_demand = folder_paths[4][0]
-daily_demand_customers = folder_paths[4][2]
+input_folder = save_path #folder_paths[5][2]
+#peak_average = folder_paths[5][1]
+#combined_sessions = folder_paths[5][0]
+#daily_demand = folder_paths[4][0]
+#daily_demand_customers = folder_paths[4][2]
 
 print(f'________Creating hourly demand for consumer types_______')
 # Loop through all files in input folder

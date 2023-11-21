@@ -1,12 +1,12 @@
 import pandas as pd
 import os
-from functions import folder_paths
+from folder_creator import save_path
 
 # Data Path where field collected data is stored
-data_path = folder_paths[1]
+data_path = 'C:\\Users\\bmogaka\\Desktop\\Field Data'
 
 # Get the path where the CSV files will be saved
-save_path = folder_paths[5][2]
+#save_path = folder_paths[5][2]
 
 file_list = os.listdir(data_path)
 
