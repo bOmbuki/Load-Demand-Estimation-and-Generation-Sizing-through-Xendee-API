@@ -20,7 +20,7 @@ validWebIds = []
 webIDProjectNames = []
 resultIds = []
 
-load_data = pandas.read_csv('Load Profile TS.csv')
+load_data = pandas.read_csv('Load Profile.csv')
 solar_data = pandas.read_csv('Solar Profile TS.csv')
 
 for index, site in Sites.iterrows():

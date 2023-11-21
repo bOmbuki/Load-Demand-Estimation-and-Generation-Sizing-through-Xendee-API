@@ -22,17 +22,18 @@ def create_load_profile_estimation_folder_structure():
         os.path.join(sorted_data, "Sorted Field Data"),
     ]
 
-    # folders = [main_folder, demand, sorted_data] + demand_subfolders + sorted_data_subfolders
+    folders = [main_folder, demand, sorted_data] + demand_subfolders + sorted_data_subfolders
 
-    # for folder in folders:
-    #     if not os.path.exists(folder):
-    #         try:
-    #             os.makedirs(folder)
-    #             print(f"Folder created: {folder}")
-    #         except Exception as e:
-    #             print(f"Error creating folder {folder}: {e}")
-    #     else:
-    #         print(f"Folder already exists: {folder}")
+    for folder in folders:
+        if not os.path.exists(folder):
+             try:
+                 os.makedirs(folder)
+                 print(f"Folder created: {folder}")
+             except Exception as e:
+                 print(f"Error creating folder {folder}: {e}")
+        else:
+             pass
+             #print(f"Folder already exists: {folder}")
 
     # Return the paths of the created folders
     return main_folder, demand, sorted_data, demand_subfolders, sorted_data_subfolders
