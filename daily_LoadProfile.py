@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from folder_funcs import folder_paths
+from functions import folder_paths
 
 # Define input and output file paths
 input_folder = folder_paths[5][2]

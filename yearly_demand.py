@@ -1,12 +1,15 @@
+import numpy as np
 import pandas as pd
 import os
-from folder_funcs import folder_paths
+import re
+from functions import folder_paths
+from functions import plot_load_curves
 
 seasons_data = folder_paths[4][2]
 seasons_data_sorted = folder_paths[4][1]
 yearly_demand_time_steps = folder_paths[4][4]
 xendee_inputs = folder_paths[4][3]
-
+load_curves = folder_paths[4][5]
 
 average_demand = ['Household Average', 'Business Average', 'Religion Average', 'Health Average', 'School Average']
 peak_demand = ['Household Peak', 'Business Peak', 'Religion Peak', 'Health Peak', 'School Peak']
@@ -89,9 +92,35 @@ for filename in os.listdir(seasons_data):
             'S1_Peak': s1_peak,
             'S2_Peak': s2_peak,
         })
+
+        # Randomizing the data frame using a random normal distribution
+        for column in daily_lp.columns:
+            upper_limit = 1.2 * daily_lp[column]
+            lower_limit = 0.8 * daily_lp[column]
+            z_score = 1.96  # Z-score for a 95% confidence interval
+            scale = (upper_limit - lower_limit) / (2 * z_score)
+            daily_lp[column] = np.random.normal(loc=daily_lp[column], scale=scale, size=daily_lp.shape[0])
+
         output_name = os.path.splitext(filename)[0] + '.xlsx'
         output_file_path = os.path.join(seasons_data_sorted, output_name)
         daily_lp.to_excel(output_file_path, index=False)
+
+# Loop generate daily load profile curves
+for file_name in os.listdir(seasons_data_sorted):
+    if file_name.endswith('.xlsx') or file_name.endswith('.xls'):
+        file_path = os.path.join(seasons_data_sorted, file_name)
+
+        # Extract village name from the file name
+        match = re.search(r'Sorted_(.*?) -', file_name)
+
+        if match:
+            village_name = match.group(1).strip()
+
+            # Read the Excel file into a DataFrame
+            df = pd.read_excel(os.path.join(seasons_data_sorted, file_name))
+
+            # Call the plotting function for the current DataFrame
+            plot_load_curves(df, load_curves, f'{village_name} Load Curves')
 
 # Define date ranges for two periods
 start_date_period1 = pd.to_datetime('2023-01-01')
@@ -184,7 +213,7 @@ for file in os.listdir(yearly_demand_time_steps):
 
         xendee_df = excel_file.drop(['Date', 'Time Step'], axis=1)
 
-        output_file_name = file.replace('- output.xlsx', '.csv')
+        output_file_name = file.replace(' - output.xlsx', '.csv').replace('Sorted_', '')
         output_file_path = os.path.join(xendee_inputs, output_file_name)
         xendee_df.to_csv(output_file_path, index=False, header=False)
-        print(f"{output_file_name} 'Xendee input completed successfully!")
+        print(f"{output_file_name} Xendee input file completed successfully!")

@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from folder_funcs import folder_paths
+from functions import folder_paths
 
 # Data Path where field collected data is stored
 data_path = folder_paths[1]
