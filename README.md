@@ -19,9 +19,10 @@ For each file and each sheet in the sorted data folder:
  - The code merges the matching datasets for each site and finds the typical and peak demand per customer type for each site.
  - The code multiplies the demand per customer type by the number of customers in each site and saves the results in Village Demand Folder. 
 ##### yearly_demand
-- For each file in the Village Demand Folder:
+For each file in the Village Demand Folder:
  - Calculates the total and peak demand for each season and day type (sheet).
  - Combines the demand data into one file. 
  - Adds random noise to the data using a normal distribution
- - Creates load curves and a yearly demand time series from the noisy data (saved in Load curves and Xendee input folders respectively)
-- Merges all the time series data into one file for use in generation optimization
+ - Creates load curves and a yearly demand time series from the noisy data (saved in Load curves and Xendee 
+   input folders respectively)
+Merges all the time series data into one file for use in generation optimization
