@@ -30,5 +30,9 @@ Merges all the time series data into one file for use in generation optimization
 - folder_creator.py has a function that creates a system of folders that will store the preprocessed data at all stages on one's desktop
 - plot_creator.py has a function that is called to create the load curves for each proposed microgrid site.
 ##### api_Optimization
-- This section of code is a takes the merged times series data, location data, solar irradiance data from NASA or NREL, and the cost of various generation technologies (batteries, generators and solar array 
-  data), communicates to the Xendee servers through and API and thereby facilitating batch asset and generation sizing optimization.
+- This section of code is a takes the merged times series data, location data, solar irradiance data from NASA or NREL, and the cost of various generation 
+  technologies (batteries, generators and solar arrays), communicates to the Xendee servers through and API and thereby facilitating batch asset and generation 
+  sizing optimization.
+##### main.py
+- This is used to run all the scripts sequentially.
+NB: Prior to executing the main.py, one has to define the folder path to where the field data is stored to the data_path variable in Sort_excel.py
