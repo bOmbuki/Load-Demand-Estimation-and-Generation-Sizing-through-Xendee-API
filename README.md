@@ -1,23 +1,27 @@
 #### Load-Demand-Estimation-and-Generation-Sizing Optimization
-Execute file in order sort excel ---> daily demand estimation ---> yearly LP generation ---> main
+- This code converts daily minute kilowatt demand data from the field into hourly data, adds random noise, creates load curves, and estimates yearly demand 
+  data for Xendee microgrid optimization.
+##### Data Description
+- The data is a spreadsheet with how much electricity different rural customers use every minute in a day.
+- The customers are: households, schools, businesses, religious establishments, and health centers.
+- The spreadsheet has four sheets, each for a different combination of season and day type.
+   - Sheet 1: Season 1 weekday
+   - Sheet 2: Season 1 weekend
+   - Sheet 3: Season 2 weekday
+   - Sheet 4: Season 2 weekend
+- One location can have multiple related datasets, each from a different collection point in time.
 ##### Sort_excel
-- It reads the field collected minute demand estimation data from user specified folder.
-- It converts the values in the 'time stamp' column of each sheet to a datetime format, if the column exists.
-- It sorts the data in each sheet by the 'time stamp' column in ascending order.
-- It stores the sorted data in a new folder specified by the user.
+- The code sorts the field data by time from midnight to midnight for each sheet (season and day type) and saves the output into a new folder called Sorted 
+  Field Data.
 ##### daily_LoadProfile
-- Reads the sorted field data files.
-- For each sheet:
-   - It computes the mean and finds the max value of each specific consumer type in each row and groups these averages into sets of 60 (hourly sets).
-   - The means and max values of these sets are combined to form a new dataframe forming 24hr load demand estimates.
-   - It then reads the stored 24hr load demand estimates and finds matching pairs (each site can have several datasets), and combines them into single files. 
-   - The collated data is then processed by finding the averages and max values for each specified consumer for each row, thereby finding the typical and peak 
-     per consumer type.
-   - It then reads a file that defines the number of consumers per village/site surveyed per type and finds the typical and peaks total daily demand per
-     consumer type using product operation, and the output is stored in a user defined folder.
+For each file and each sheet in the sorted data folder:
+ - The code calculates the average and peak electricity demand for each customer type in each hour of the day for each sheet (season and day type).
+ - The code merges the matching datasets for each site and finds the typical and peak demand per customer type for each site.
+ - The code multiplies the demand per customer type by the number of customers in each site and saves the results in Village Demand Folder. 
 ##### yearly_demand
-- This code processes typical and peak daily demand per consumer.
-- It goes through the outpufiles from daily_LoadProfile. For each sheet (sheet have the typical and peak demands for different seasons in the surveyed sites)
-    - The typical demand per for different consumer types are summed together and the data stored in lists i.e., season 1 and season 2 - typical and peak demands for weekday and weekends.
-    - These sums are stored in lists.
-    - Loops are used to populate new excel files with the data contained in the list. For everyweekday in a select year, the average demand in a specified season are used to demand values for week days and peak values are used to populate the hourly demand for the weekends.
+- For each file in the Village Demand Folder:
+ - Calculates the total and peak demand for each season and day type (sheet).
+ - Combines the demand data into one file. 
+ - Adds random noise to the data using a normal distribution
+ - Creates load curves and a yearly demand time series from the noisy data (saved in Load curves and Xendee input folders respectively)
+- Merges all the time series data into one file for use in generation optimization
