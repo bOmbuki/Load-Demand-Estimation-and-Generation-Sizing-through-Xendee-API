@@ -26,3 +26,9 @@ For each file in the Village Demand Folder:
  - Creates load curves and a yearly demand time series from the noisy data (saved in Load curves and Xendee 
    input folders respectively)
 Merges all the time series data into one file for use in generation optimization
+##### folder_creator.py and plot_creator.py
+- folder_creator.py has a function that creates a system of folders that will store the preprocessed data at all stages on one's desktop
+- plot_creator.py has a function that is called to create the load curves for each proposed microgrid site.
+##### api_Optimization
+- This section of code is a takes the merged times series data, location data, solar irradiance data from NASA or NREL, and the cost of various generation technologies (batteries, generators and solar array 
+  data), communicates to the Xendee servers through and API and thereby facilitating batch asset and generation sizing optimization.
