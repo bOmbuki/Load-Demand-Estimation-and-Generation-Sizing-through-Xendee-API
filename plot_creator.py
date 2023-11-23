@@ -5,6 +5,9 @@ from scipy.interpolate import interp1d
 
 # Function to plot load curves
 def plot_load_curves(df, output_folder, file_name):
+
+    """ This function creates two subplots along one column using matplotlib and scipy"""
+
     # Generate x-axis values with higher resolution
     hours_high_res = np.linspace(0, 23, 1000)
 

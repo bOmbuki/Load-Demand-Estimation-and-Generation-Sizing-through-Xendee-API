@@ -1,6 +1,8 @@
 import os
 
 def create_load_profile_estimation_folder_structure():
+    """This function creates a series of folders on a user desktop, and retrieves the folder paths of each of the
+    folders created."""
     desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
     main_folder = os.path.join(desktop_path, "Load Profile Estimation")
     #field_data = os.path.join(main_folder, "Field Data")
@@ -26,13 +28,13 @@ def create_load_profile_estimation_folder_structure():
 
     for folder in folders:
         if not os.path.exists(folder):
-             try:
-                 os.makedirs(folder)
-                 print(f"Folder created: {folder}")
-             except Exception as e:
-                 print(f"Error creating folder {folder}: {e}")
+            try:
+                os.makedirs(folder)
+                print(f"Folder created: {folder}")
+            except Exception as e:
+                print(f"Error creating folder {folder}: {e}")
         else:
-             pass
+            pass
              #print(f"Folder already exists: {folder}")
 
     # Return the paths of the created folders
