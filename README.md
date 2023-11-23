@@ -31,7 +31,7 @@ Merges all the time series data into one file for use in generation optimization
 - plot_creator.py has a function that is called to create the load curves for each proposed microgrid site.
 ##### api_Optimization
 - This section of code is a takes the merged times series data, location data, solar irradiance data from NASA or NREL, and the cost of various generation 
-  technologies (batteries, generators and solar arrays), communicates to the Xendee servers through and API and thereby facilitating batch asset and generation 
+  technologies (batteries, generators and solar arrays), communicates to the Xendee servers through and API and thereby facilitating batch asset selection and generation 
   sizing optimization.
 ##### main.py
 - This is used to run all the scripts sequentially.
