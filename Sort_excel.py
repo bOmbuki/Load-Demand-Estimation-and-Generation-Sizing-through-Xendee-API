@@ -31,6 +31,8 @@ for file_name in file_list:
             if 'time_stamp' in df.columns:
                 # Converting data in the time stamp column to datetime
                 df['time_stamp'] = pd.to_datetime(df['time_stamp'], format='%I:%M:%S %p')
+                # Replace non-numeric values, strings, or blanks with 0 in the entire DataFrame
+                df = df.apply(pd.to_numeric, errors='coerce').fillna(0)
                 # Sort values in the data frame based on the time stamp column
                 df.sort_values(by='time_stamp', inplace=True, ignore_index = True)
                 # Add sorted data for each sheet into the list
