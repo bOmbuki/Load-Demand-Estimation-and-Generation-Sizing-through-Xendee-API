@@ -6,11 +6,6 @@ import plot_creator
 from folder_creator import daily_demand_customers, seasons_data_sorted, yearly_demand_time_steps, xendee_inputs, load_curves
 
 seasons_data = daily_demand_customers
-#folder_paths[4][2]
-#seasons_data_sorted = folder_paths[4][1]
-#yearly_demand_time_steps = folder_paths[4][4]
-#xendee_inputs = folder_paths[4][3]
-#load_curves = folder_paths[4][5]
 
 average_demand = ['Household Average', 'Business Average', 'Religion Average', 'Health Average', 'School Average']
 peak_demand = ['Household Peak', 'Business Peak', 'Religion Peak', 'Health Peak', 'School Peak']

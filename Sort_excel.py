@@ -5,9 +5,6 @@ from folder_creator import save_path
 # Data Path where field collected data is stored
 data_path = 'C:\\Users\\bmogaka\\Desktop\\Field Data'
 
-# Get the path where the CSV files will be saved
-#save_path = folder_paths[5][2]
-
 file_list = os.listdir(data_path)
 
 # Looping through each file in the defined file path and sorting it
