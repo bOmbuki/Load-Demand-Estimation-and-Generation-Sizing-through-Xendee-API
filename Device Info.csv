@@ -1,0 +1,5 @@
+Name,Type,Use,Data 1,Data 2,Data 3
+Bat1,Battery ,TRUE,2255.45,340,45
+Bat2,Battery ,FALSE,3330,562,89
+Sol1,Solar,TRUE,1522,785,35
+Sol2,Solar,TRUE,2544,321,96
