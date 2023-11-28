@@ -5,8 +5,8 @@ from requests.auth import HTTPBasicAuth
 """ API code to communicate with xendee servers to facilitate batch techno-economic analysis """
 
 xendeeAPIbaseUrl = "https://asu-api.xendee.com/api"
-xendeeAPIUsername = '402B4A23-1757-4AC9-9DBB-BA3427A410B0'
-xendeeAPIPassword = '05BF579D-55A1-43D5-A81D-81CDF59AE7B8'
+xendeeAPIUsername = # USERNAME SPECIFIED IN NOTEPAD ATTACHED IN A SEPERATE LINK
+xendeeAPIPassword = # PASSWORD SPECIFIED IN NOTEPAD ATTACHED IN A SEPERATE LINK
 xendeeAPIUserId = 'bombuki@asu.edu'  # use your ASU XENDEE login email/user ID
 
 basic = HTTPBasicAuth(xendeeAPIUsername, xendeeAPIPassword)
