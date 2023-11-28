@@ -1,3 +1,4 @@
+#### NB: Prior to executing the main.py, one has to define the folder path to where the field data is stored to the data_path variable in Sort_excel.py
 #### Load-Demand-Estimation-and-Generation-Sizing Optimization
 - This code converts daily minute kilowatt demand data from the field into hourly data, adds random noise, creates load curves, and estimates yearly demand 
   data for Xendee microgrid optimization.
@@ -35,4 +36,4 @@ Merges all the time series data into one file for use in generation optimization
   sizing optimization.
 ##### main.py
 - This is used to run all the scripts sequentially.
-NB: Prior to executing the main.py, one has to define the folder path to where the field data is stored to the data_path variable in Sort_excel.py
+
