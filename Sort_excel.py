@@ -2,6 +2,8 @@ import pandas as pd
 import os
 from folder_creator import save_path
 
+""" Sorts and cleans the field data for further processing """
+
 # Data Path where field collected data is stored
 data_path = 'C:\\Users\\bmogaka\\Desktop\\Field Data'
 

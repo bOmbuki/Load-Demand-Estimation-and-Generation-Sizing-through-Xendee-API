@@ -14,6 +14,7 @@ peak_demand = ['Household Peak', 'Business Peak', 'Religion Peak', 'Health Peak'
 start_date = '2023-01-01 00:00:00'
 end_date = '2023-12-31 23:59:59'
 
+""" Combines the electricity demands for different say times and seasons into one dataset while also introducing noise """
 # Loop through each file in the folder
 for filename in os.listdir(seasons_data):
     if filename.endswith('.xlsx') or filename.endswith('.xls'):  # Check if file is an Excel file
@@ -101,6 +102,7 @@ for filename in os.listdir(seasons_data):
         output_file_path = os.path.join(seasons_data_sorted, output_name)
         daily_lp.to_excel(output_file_path, index=False)
 
+""" Uses the plot_creator function to generate load curves for each site """
 # Loop generate daily load profile curves
 for file_name in os.listdir(seasons_data_sorted):
     if file_name.endswith('.xlsx') or file_name.endswith('.xls'):
@@ -118,6 +120,7 @@ for file_name in os.listdir(seasons_data_sorted):
             # Call the plotting function for the current DataFrame
             plot_creator.plot_load_curves(df, load_curves, f'{village_name} Load Curves')
 
+""" Generates the yearly electricity demand time series data for each site"""
 # Define date ranges for two periods
 start_date_period1 = pd.to_datetime('2023-01-01')
 end_date_period1 = pd.to_datetime('2023-04-30 23:59:59')
@@ -199,7 +202,7 @@ for file in os.listdir(seasons_data_sorted):
         df.to_excel(output_file_path, index=False)
         print(f"{output_file_name} 'Yearly load profile generation completed successfully!")
 
-
+""" Generates individual csv files which can be used independently as xendee inputs """
 # Xendee inputs
 print(f'\n____________Creating Xendee Inputs___________')
 for file in os.listdir(yearly_demand_time_steps):
@@ -223,6 +226,7 @@ csv_files = [file for file in files if file.endswith('.csv')]
 dfs_list = []
 file_names = []
 
+""" Combines all the Xendee inputs into one file for batch optimization """
 # Loop through each csv file in csv_files
 for csv_file in csv_files:
     # Read the csv file into a dataframe with file name as header

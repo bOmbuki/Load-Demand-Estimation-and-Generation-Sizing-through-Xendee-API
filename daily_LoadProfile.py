@@ -5,6 +5,7 @@ from folder_creator import save_path, peak_average, combined_sessions, daily_dem
 # Define input and output file paths
 input_folder = save_path
 
+""" Scales the minute electricity demand to hourly demand over a 24hr period """
 print(f'________Creating hourly demand for consumer types_______')
 # Loop through all files in input folder
 for file_name in os.listdir(input_folder):
@@ -62,6 +63,7 @@ for file_name in os.listdir(input_folder):
 
         print(f"Output saved to {output_file_path}.")
 
+""" Combines multiple data sets related to one site in to a single file """
 print(f'\n_________Combining sessions________')
 # Loop through the files in the input directory
 file_dict = {}
@@ -189,6 +191,7 @@ for file in os.listdir(combined_sessions):
         output_workbook.close()
         print(f"Output saved to {daily_demand}.")
 
+""" Computes the final 24hr profile for each site taking into account the number of consumer in each site by type """
 print("_________________Factoring number of consumers by type_____________________")
 consumer_df = pd.read_excel('Fiji Consumers.xlsx', index_col=0)
 print(consumer_df)
