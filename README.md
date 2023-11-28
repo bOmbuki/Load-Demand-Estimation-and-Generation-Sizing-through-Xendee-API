@@ -13,7 +13,7 @@
 - One location can have multiple related datasets, each from a different collection point in time.
 ##### Sort_excel
 - The code sorts the field data by time from midnight to midnight for each sheet (season and day type) and saves the output into a new folder called Sorted 
-  Field Data.
+  Field Data (all expected to be in the same format based on a provided template)
 ##### daily_LoadProfile
 For each file and each sheet in the sorted data folder:
  - The code calculates the average and peak electricity demand for each customer type in each hour of the day for each sheet (season and day type).
