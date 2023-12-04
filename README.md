@@ -1,5 +1,4 @@
-#### NB: Prior to executing the main.py, one has to define the folder path to where the field data is stored to the data_path variable in Sort_excel.py
-#### API username and password shared via email/canvas
+### Prior to executing the main.py, one has to define api username, password, userid, api baseurl and the path to the folder where the field data is stored in the config.ini file
 #### Load-Demand-Estimation-and-Generation-Sizing Optimization
 - This code converts daily minute kilowatt demand data from the field into hourly data, adds random noise, creates load curves, and estimates yearly demand 
   data for Xendee microgrid optimization.
@@ -29,7 +28,8 @@ For each file in the Village Demand Folder:
    input folders respectively)
 Merges all the time series data into one file for use in generation optimization
 ##### folder_creator.py and plot_creator.py
-- folder_creator.py has a function that creates a system of folders that will store the preprocessed data at all stages on one's desktop
+- folder_creator.py has a function that creates a system of folders that will store the preprocessed data at all stages on one's desktop - this data will be used to train SARIMAX and SARIMA models for future 
+  demand prediction.
 - plot_creator.py has a function that is called to create the load curves for each proposed microgrid site.
 ##### api_Optimization
 - This section of code is a takes the merged times series data, location data, solar irradiance data from NASA or NREL, and the cost of various generation 
