@@ -1,13 +1,17 @@
 import pandas
 import requests
 from requests.auth import HTTPBasicAuth
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 """ API code to communicate with xendee servers to facilitate batch techno-economic analysis """
 
-xendeeAPIbaseUrl = "https://asu-api.xendee.com/api"
-xendeeAPIUsername = # USERNAME SPECIFIED IN NOTEPAD
-xendeeAPIPassword = # PASSWORD SPECIFIED IN NOTEPAD
-xendeeAPIUserId =   # use your ASU XENDEE login email/user ID
+xendeeAPIbaseUrl = config.get('credentials', 'baseurl')
+xendeeAPIUsername = config.get('credentials', 'username')
+xendeeAPIPassword = config.get('credentials', 'password')
+xendeeAPIUserId = config.get('credentials', 'userid')
 
 basic = HTTPBasicAuth(xendeeAPIUsername, xendeeAPIPassword)
 
@@ -25,10 +29,12 @@ resultIds = []
 load_data = pandas.read_csv('Load Profile.csv')
 solar_data = pandas.read_csv('Solar Profile TS.csv')
 
+print('\n________________Technoeconomic Optimization______________')
+
 for index, site in Sites.iterrows():
     name = site["Site"]
-    latitude = site[1]
-    longitude = site[2]
+    latitude = site["Latitude"]
+    longitude = site["Longitude"]
     load_profile = load_data[name].tolist()
     solar_profile = solar_data[name].tolist()
 
@@ -63,7 +69,10 @@ for index, site in Sites.iterrows():
         }
 
         response = requests.post(f'{xendeeAPIbaseUrl}/OptimizationProjects', json=project, auth=basic)
-        print(f"OptimizationProjects(Setup) - Status Code: {response.status_code}, Response: {response.json()}")
+        #print(f"OptimizationProjects(Setup) - Status Code: {response.status_code}, Response: {response.json()}")
+        print("OptimizationProjects(Setup) - Status Code:", response.status_code)
+        print("Response:", response.json())
+        print()
 
         webID = response.json()["results"]["OptimizationProjectId"]
 
@@ -201,6 +210,7 @@ for index, site in Sites.iterrows():
 
         response = requests.post(f'{xendeeAPIbaseUrl}/Generator', json=FGWilson65_Payload, auth=basic)
         print(f"OptimizationProjects(Generator) - Status Code: {response.status_code}, Response: {response.content}")
+
 
         # RUNNING OPTIMIZATION
         economic_optimization = {

@@ -1,11 +1,15 @@
 import pandas as pd
 import os
 from folder_creator import save_path
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 """ Sorts and cleans the field data for further processing """
 
 # Data Path where field collected data is stored
-data_path = 'C:\\Users\\bmogaka\\Desktop\\Field Data'
+data_path = config.get('credentials','field data path') #'C:\\Users\\bmogaka\\Desktop\\Field Data'
 
 file_list = os.listdir(data_path)
 
